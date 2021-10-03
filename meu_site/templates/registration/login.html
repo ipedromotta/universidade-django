@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+{% load static %}
+{% block title %} Login {% endblock title %}
+
+{% block header %}
+ <header class="masthead" style="background-image: url({% static 'img/about-bg.jpg' %})">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Faça seu login</h1>
+            <span class="subheading">Não tem login? <a class="text-warning" href="{% url 'signup' %}">Faça seu cadastro agora mesmo.</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+{% endblock header %}
+
+{% block content %}
+<div class="container justify-content-center">
+        <div class="card">
+                <div class="card-header">
+                        <h2>LOGIN DO SISTEMA</h2>
+                </div>
+                <div class="card-body">
+                        <form method="POST">
+                                {% csrf_token %}
+                                {{ form|bootstrap}}
+                                <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                </div>
+        </div>
+</div>
+{% endblock content %}
