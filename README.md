@@ -3,7 +3,7 @@
 </h1>
 
 ## :page_facing_up: Sobre #
-<p>Para inicializar o blog basta ativar o ambiente virtual utilizando o comando <code>pipenv shell</code> e em seguida entrar executar <code>py manage.py runserver</code> e será dado um localhost no console para o acesso do blog</p>
+<p>Para inicializar o blog basta ativar o ambiente virtual utilizando o comando <code>pipenv shell</code> e em seguida utilizar o comando <code>py manage.py runserver</code> e será dado um localhost no console para o acesso do blog</p>
 <p>Todas as dependencias estão no arquivo pipfile</p>
 
 
