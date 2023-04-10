@@ -4,6 +4,7 @@
 <h3>
     Lista de campos registrados
 </h3>
+<a href="{% url 'cadastrar-campo' %}" class="btn btn-primary btn-sm">Cadastrar campo</a>
 <hr>
 <div class="table-responsive">
     <table class="table table-striped">
@@ -17,8 +18,8 @@
             <td>{{ campo.nome }}</td>
             <td>{{ campo.descricao }}</td>
             <td>
-                <a href="{% url 'editar-campo' campo.pk %}" class="btn btn-warning btn-sm">Editar</a>
-                <a href="{% url 'deletar-campo' campo.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+                <a href="{% url 'editar-campo' campo.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
+                <a href="{% url 'deletar-campo' campo.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
             </td>
         </tr>
         {% empty %}
