@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>
+    Lista de atividades registrados
+</h3>
+<hr>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>Número</th>
+            <th>Descrição</th>
+            <th>Pontos</th>
+            <th>Detalhes</th>
+            <th>Campo</th>
+            <th>Opções</th>
+        </tr>
+        {% for atividade in object_list %}
+        <tr>
+            <td>{{ atividade.numero }}</td>
+            <td>{{ atividade.descricao }}</td>
+            <td>{{ atividade.pontos }}</td>
+            <td>{{ atividade.detalhes }}</td>
+            <td>{{ atividade.campo }}</td>
+            <td>
+                <a href="{% url 'editar-atividade' atividade.pk %}" class="btn btn-warning btn-sm">Editar</a>
+                <a href="{% url 'deletar-atividade' atividade.pk %}" class="btn btn-danger btn-sm">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Nenhuma atividade registrada.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
