@@ -15,14 +15,20 @@
 </head>
 <body>
     {% block menu %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="collapse navbar-collapse" id="navbarNav">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+        <div class="collapse navbar-collapse container" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'inicio' %}">Inicio <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'listar-campos' %}" class="nav-link">Campos</a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'listar-atividades' %}" class="nav-link">Atividades</a>
             </li>
           </ul>
         </div>
