@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Campo(models.Model):
@@ -15,6 +17,7 @@ class Atividade(models.Model):
     detalhes = models.CharField(max_length=100)
     
     campo = models.ForeignKey(Campo, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self) -> str:
         return f"{self.numero} - {self.descricao} ({self.campo.nome})"

@@ -23,6 +23,11 @@ class AtividadeCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('listar-atividades')
     login_url = reverse_lazy('login')
     
+    def form_valid(self, form):
+        form.instance.usuario = self.request.user
+        
+        return super().form_valid(form)
+    
 class CampoUpdate(GroupRequiredMixin, UpdateView):
     model = Campo
     fields = ['nome', 'descricao']
