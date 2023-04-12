@@ -6,6 +6,13 @@
 {% endblock %}
 
 {% block content %}
+{% if request.user.is_authenticated %}
+<h3>Você já está logado</h3>
+<hr>
+<p class="lead">
+    Para acessar outra conta basta clicar em <a class="btn btn-primary btn-sm" href="{% url 'logout' %}">SAIR</a>.
+</p>
+{% else %}
 <h3>Autenticação</h3>
 <hr>
 <div class="row">
@@ -20,4 +27,6 @@
         </form>
     </div>
 </div>
+{% endif %}
+
 {% endblock %}
