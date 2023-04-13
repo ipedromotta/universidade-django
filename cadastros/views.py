@@ -1,11 +1,15 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
+
 from django.urls import reverse_lazy
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from braces.views import GroupRequiredMixin
 
+from django.shortcuts import get_object_or_404
+
 from .models import Campo, Atividade
+
 
 # Create your views here.
 class CampoCreate(GroupRequiredMixin, CreateView):
@@ -43,6 +47,11 @@ class AtividadeUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('listar-atividades')
     login_url = reverse_lazy('login')
     
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(Atividade, pk=self.kwargs['pk'], usuario=self.request.user)
+        
+        return self.object
+    
 class CampoDelete(GroupRequiredMixin, DeleteView):
     model = Campo
     template_name = 'form-excluir.html'
@@ -55,6 +64,11 @@ class AtividadeDelete(LoginRequiredMixin, DeleteView):
     template_name = 'form-excluir.html'
     success_url = reverse_lazy('listar-atividades')
     login_url = reverse_lazy('login')
+    
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(Atividade, pk=self.kwargs['pk'], usuario=self.request.user)
+        
+        return self.object
     
 class CampoList(LoginRequiredMixin, ListView):
     model = Campo
