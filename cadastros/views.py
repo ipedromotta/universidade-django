@@ -19,6 +19,13 @@ class CampoCreate(GroupRequiredMixin, CreateView):
     success_url = reverse_lazy('listar-campos')
     login_url = reverse_lazy('nao-autenticado')
     group_required = u"Reitor"
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Cadastro de campos"
+        
+        return context
 
 class AtividadeCreate(LoginRequiredMixin, CreateView):
     model = Atividade
@@ -32,6 +39,13 @@ class AtividadeCreate(LoginRequiredMixin, CreateView):
         
         return super().form_valid(form)
     
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Cadastro de atividades"
+        
+        return context
+    
 class CampoUpdate(GroupRequiredMixin, UpdateView):
     model = Campo
     fields = ['nome', 'descricao']
@@ -39,6 +53,14 @@ class CampoUpdate(GroupRequiredMixin, UpdateView):
     success_url = reverse_lazy('listar-campos')
     login_url = reverse_lazy('nao-autenticado')
     group_required = [u"Reitor", u"Grupo2"]
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Editar Campo"
+        context['botao'] = "Salvar"
+        
+        return context
     
 class AtividadeUpdate(LoginRequiredMixin, UpdateView):
     model = Atividade
@@ -52,16 +74,35 @@ class AtividadeUpdate(LoginRequiredMixin, UpdateView):
         
         return self.object
     
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Editar Atividade"
+        context['botao'] = "Salvar"
+        
+        return context
+    
 class CampoDelete(GroupRequiredMixin, DeleteView):
     model = Campo
-    template_name = 'form-excluir.html'
+    template_name = 'form.html'
     success_url = reverse_lazy('listar-campos')
     login_url = reverse_lazy('nao-autenticado')
     group_required = u"Reitor"
     
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Excluir campo"
+        context['subtitulo'] = "Confirme para excluir o campo definitivamente"
+        context['botao'] = "Excluir"
+        context['estilo_botao'] = "btn-danger"
+        context['tag_exclusao'] = True
+        
+        return context
+    
 class AtividadeDelete(LoginRequiredMixin, DeleteView):
     model = Atividade
-    template_name = 'form-excluir.html'
+    template_name = 'form.html'
     success_url = reverse_lazy('listar-atividades')
     login_url = reverse_lazy('login')
     
@@ -69,6 +110,17 @@ class AtividadeDelete(LoginRequiredMixin, DeleteView):
         self.object = get_object_or_404(Atividade, pk=self.kwargs['pk'], usuario=self.request.user)
         
         return self.object
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Excluir atividade"
+        context['subtitulo'] = "Confirme para excluir a atividade definitivamente"
+        context['botao'] = "Excluir"
+        context['estilo_botao'] = "btn-danger"
+        context['tag_exclusao'] = True
+        
+        return context
     
 class CampoList(LoginRequiredMixin, ListView):
     model = Campo
