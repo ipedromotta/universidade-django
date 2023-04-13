@@ -65,3 +65,8 @@ class AtividadeList(LoginRequiredMixin, ListView):
     model = Atividade
     template_name = 'atividade.html'
     login_url = reverse_lazy('login')
+    
+    def get_queryset(self):
+        self.object_list = Atividade.objects.filter(usuario=self.request.user)
+        
+        return self.object_list
