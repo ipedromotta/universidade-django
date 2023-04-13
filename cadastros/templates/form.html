@@ -2,9 +2,13 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h3>Cadastro</h3>
+<h3>{{ titulo }}</h3>
 <p class="lead">
+    {% if subtitulo %}
+    {{ subtitulo }}
+    {% else %}
     Preencha todos os campos obrigatorios
+    {% endif %}
 </p>
 <hr>
 <form action="" method="post">
@@ -12,7 +16,20 @@
 
     {{ form|crispy }}
 
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
+    {% if tag_exclusao %}
+    <p>Deseja excluir o registro: <strong>{{ object }}</strong>?</p>
+    {% endif %}
+
+    <button type="submit" class="btn btn-primary {{ estilo_botao }}">
+        {% autoescape off %}
+        <!-- Transforma a {{ variavel }} de string para html -->
+        {% endautoescape %}
+        {% if botao %}
+        {{ botao }}
+        {% else %}
+        Cadastrar
+        {% endif %}
+    </button>
 
 </form>
 {% endblock %}
