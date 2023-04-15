@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
-from django.contrib.auth.models import User, Group
-from django.shortcuts import get_object_or_404
+
+from django.contrib.auth.models import Group
+from django.views.generic.edit import CreateView, UpdateView
 
 from .forms import UsuarioForm
+from .models import Perfil
 
 
 # Create your views here.
@@ -20,6 +21,9 @@ class UsuarioCreate(CreateView):
         
         self.object.groups.add(grupo)
         self.object.save()
+        
+        Perfil.objects.create(usuario=self.object)
+        
         return url
     
     def get_context_data(self, *args, **kwargs):
@@ -30,3 +34,22 @@ class UsuarioCreate(CreateView):
 
 def nao_autenticado(request):
     return render(request, 'autenticacao.html')
+
+class PerfilUpdate(UpdateView):
+    template_name = 'form.html'
+    model = Perfil
+    fields = ['nome_completo', 'cpf', 'telefone']
+    success_url = reverse_lazy('inicio')
+    
+    def get_object(self, queryset=None):
+        self.object = get_object_or_404(Perfil, usuario=self.request.user)
+        
+        return self.object
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        
+        context['titulo'] = "Meus dados pessoais"
+        context['botao'] = "Atualizar"
+        
+        return context
