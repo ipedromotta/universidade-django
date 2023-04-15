@@ -8,7 +8,6 @@ django = "*"
 django-crispy-forms = "*"
 crispy-bootstrap5 = "*"
 django-braces = "*"
-django-cleanup = "*"
 
 [dev-packages]
 
