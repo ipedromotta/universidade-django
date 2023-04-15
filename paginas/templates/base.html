@@ -44,7 +44,7 @@
               <a class="nav-link" href="{% url 'sobre' %}">Sobre</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Ajuda</a>
+              <a class="nav-link" href="{% url 'ajuda' %}">Ajuda</a>
             </li>
           </ul>
           <ul class="navbar-nav">
@@ -54,8 +54,8 @@
                   {{ request.user }}
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink2">
-                  <li><a class="dropdown-item" href="#">Meus dados</a></li>
-                  <li><a class="dropdown-item" href="#">Alterar Senha</a></li>
+                  <li><a class="dropdown-item" href="{% url 'atualizar-dados' %}">Meus dados</a></li>
+                  <li><a class="dropdown-item" href="{% url 'atualizar-dados' %}">Alterar Senha</a></li>
                   <hr class="mt-0 mb-1">
                   <li><a class="dropdown-item" href="{% url 'logout' %}">Sair</a></li>
                 </ul>

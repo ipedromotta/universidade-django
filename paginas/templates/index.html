@@ -5,7 +5,19 @@
 {% endblock%}
 
 {% block content %}
-<h1 class="text">
+<h3 class="text">
     Página Inicial
-</h1>
+</h3>
+<hr>
+{% if user.is_authenticated %}
+{% if user.perfil.nome_completo %}
+<p>
+    Bem vindo ao sistema {{ user.perfil.nome_completo }}.
+</p>
+{% else %}
+<p>
+    Você precisa completar seu cadastro. Acesse <a href="{% url 'atualizar-dados' %}">meus dados</a> para atualizar.
+</p>
+{% endif %}
+{% endif %}
 {% endblock %}

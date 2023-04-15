@@ -7,3 +7,5 @@ class PaginaInicial(TemplateView):
 class SobreView(TemplateView):
     template_name = 'sobre.html'
 
+class AjudaView(TemplateView):
+    template_name = 'ajuda.html'
