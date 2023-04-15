@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>avaliacaos</title>
+{% endblock %}
+
+{% block content %}
+<h3>
+    Lista de avaliações registradas
+</h3>
+<a href="{% url 'cadastrar-avaliacao' %}" class="btn btn-primary btn-sm">Cadastrar avaliação</a>
+<hr>
+<p class="lead">
+    Registros de avaliações que serão/foram feitas presencialmente
+</p>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>Professor</th>
+            <th>Avaliação</th>
+            <th>Atividade</th>
+            <th>Campo</th>
+            <th>Opções</th>
+        </tr>
+        {% for avaliacao in object_list %}
+        <tr>
+            <td>{{ avaliacao.usuario }}</td>
+            <td><a href="{{ avaliacao.arquivo.url }}">Ver</a></td>
+            <td>{{ avaliacao.atividade.descricao }}</td>
+            <td>{{ avaliacao.atividade.campo.descricao }}</td>
+            <td>
+                <a href="{% url 'editar-avaliacao' avaliacao.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
+                <a href="{% url 'deletar-avaliacao' avaliacao.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">Nenhuma avaliacao registrada.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

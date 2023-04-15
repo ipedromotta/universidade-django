@@ -21,3 +21,17 @@ class Atividade(models.Model):
     
     def __str__(self) -> str:
         return f"{self.numero} - {self.descricao} ({self.campo.nome})"
+    
+class Avaliacao(models.Model):
+    atividade = models.ForeignKey(Atividade, on_delete=models.PROTECT)
+    usuario = models.ForeignKey(User, on_delete=models.PROTECT)
+    
+    arquivo = models.FileField(upload_to='pdf/')
+    
+    def __str__(self) -> str:
+        return f'[{self.pk}] {self.usuario} - {self.atividade}/{self.atividade.campo}'
+    
+    class Meta:
+        verbose_name_plural = "Avaliações"
+        verbose_name = "Avaliação"
+    
