@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+
+{% load static %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -32,4 +35,26 @@
     </button>
 
 </form>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/jquery.mask.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#id_cpf').mask("000.000.000-00")
+        // $('#id_telefone').mask("(00) 0 0000-0000")
+
+        var mascaraTelefone = function(val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 0 0000-0000' : '(00) 0000-00009'
+        }, 
+            opcoes = {
+                onKeyPress: function(val, e, field, options) {
+                    field.mask(mascaraTelefone.apply({}, arguments), options)
+                }
+            }
+
+        $('#id_telefone').mask(mascaraTelefone, opcoes)
+    })
+</script>
 {% endblock %}
