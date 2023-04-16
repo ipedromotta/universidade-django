@@ -5,39 +5,58 @@
 {% endblock %}
 
 {% block content %}
-<h3>
-    Lista de avaliações registradas
-</h3>
-<a href="{% url 'cadastrar-avaliacao' %}" class="btn btn-primary btn-sm">Cadastrar avaliação</a>
+<div class="d-flex justify-content-between">
+    <h3>
+        Lista de avaliações registradas
+    </h3>
+    <a href="{% url 'cadastrar-avaliacao' %}" class="btn btn-primary">Cadastrar avaliação</a>
+</div>
 <hr>
 <p class="lead">
     Registros de avaliações que serão/foram feitas presencialmente
 </p>
 <div class="table-responsive">
-    <table class="table table-striped">
-        <tr>
-            <th>Professor</th>
-            <th>Avaliação</th>
-            <th>Atividade</th>
-            <th>Campo</th>
-            <th>Opções</th>
-        </tr>
-        {% for avaliacao in object_list %}
-        <tr>
-            <td>{{ avaliacao.usuario }}</td>
-            <td><a href="{{ avaliacao.arquivo.url }}">Ver</a></td>
-            <td>{{ avaliacao.atividade.descricao }}</td>
-            <td>{{ avaliacao.atividade.campo.descricao }}</td>
-            <td>
-                <a href="{% url 'editar-avaliacao' avaliacao.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
-                <a href="{% url 'deletar-avaliacao' avaliacao.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">Nenhuma avaliação registrada.</td>
-        </tr>
-        {% endfor %}
+    <table class="table table-striped" id="tabelaAvaliacoes">
+        <thead>
+            <tr>
+                <th>Professor</th>
+                <th>Avaliação</th>
+                <th>Atividade</th>
+                <th>Campo</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for avaliacao in object_list %}
+            <tr>
+                <td>{{ avaliacao.usuario }}</td>
+                <td><a href="{{ avaliacao.arquivo.url }}">Ver</a></td>
+                <td>{{ avaliacao.atividade.descricao }}</td>
+                <td>{{ avaliacao.atividade.campo.descricao }}</td>
+                <td>
+                    <a href="{% url 'editar-avaliacao' avaliacao.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
+                    <a href="{% url 'deletar-avaliacao' avaliacao.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">Nenhuma avaliação registrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        window.alert = function(){} // Recurso tecnico para corrigir bug do DataTable
+        $("#tabelaAvaliacoes").DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+            }
+        })
+    })
+</script>
 {% endblock %}

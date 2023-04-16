@@ -5,38 +5,93 @@
 {% endblock %}
 
 {% block content %}
-<h3>
-    Lista de atividades registradas
-</h3>
-<a href="{% url 'cadastrar-atividade' %}" class="btn btn-primary btn-sm">Adicionar atividade</a>
-<hr>
-<div class="table-responsive">
-    <table class="table table-striped">
-        <tr>
-            <th>Número</th>
-            <th>Descrição</th>
-            <th>Pontos</th>
-            <th>Detalhes</th>
-            <th>Campo</th>
-            <th>Opções</th>
-        </tr>
-        {% for atividade in object_list %}
-        <tr>
-            <td>{{ atividade.numero }}</td>
-            <td>{{ atividade.descricao }}</td>
-            <td>{{ atividade.pontos }}</td>
-            <td>{{ atividade.detalhes }}</td>
-            <td>{{ atividade.campo }}</td>
-            <td>
-                <a href="{% url 'editar-atividade' atividade.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
-                <a href="{% url 'deletar-atividade' atividade.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">Nenhuma atividade registrada.</td>
-        </tr>
-        {% endfor %}
-    </table>
+<div class="d-flex justify-content-between">
+    <h3>
+        Lista de atividades registradas
+    </h3>
+    <a href="{% url 'cadastrar-atividade' %}" class="btn btn-primary float-end">Adicionar atividade</a>
 </div>
+<hr>
+
+<!-- Paginação caso o paginate_by na AtividadeList estiver ativo -->
+<!-- Está desativado pois estou utilizando o DataTable -->
+<!-- <form action="?" method="GET">
+    <input type="text" name="detalhes" id="" value="{{ request.GET.detalhes }}" class="p-1 border" autocomplete="off">
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <a href="{% url 'listar-atividades' %}" class="btn btn-secondary">Limpar</a>
+</form> -->
+
+<div class="table-responsive">
+    <table class="table table-striped" id="tabelaAtividades">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Descrição</th>
+                <th>Pontos</th>
+                <th>Detalhes</th>
+                <th>Campo</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atividade in object_list %}
+            <tr>
+                <td>{{ atividade.numero }}</td>
+                <td>{{ atividade.descricao }}</td>
+                <td>{{ atividade.pontos }}</td>
+                <td>{{ atividade.detalhes }}</td>
+                <td>{{ atividade.campo }}</td>
+                <td>
+                    <a href="{% url 'editar-atividade' atividade.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
+                    <a href="{% url 'deletar-atividade' atividade.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhuma atividade registrada.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Paginação caso o paginate_by na AtividadeList estiver ativo -->
+    <!-- Está desativado pois estou utilizando o DataTable -->
+    <!-- <div class="text-center">
+        {% if page_obj.has_previous %} 
+        {% if request.GET.detalhes %}
+        <a href="?page={{ page_obj.previous_page_number }}&detalhes={{ request.GET.detalhes }}" class="btn btn-primary">Voltar</a>
+        {% else %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-primary">Voltar</a>
+        {% endif %}
+        {% else %}
+        <a class="btn btn-primary disabled">Voltar</a>
+        {% endif %}
+
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.count}}</span>
+
+        {% if page_obj.has_next %}
+        {% if request.GET.detalhes %}
+        <a href="?page={{ page_obj.next_page_number }}&detalhes={{ request.GET.detalhes }}" class="btn btn-primary">Próximo</a>
+        {% else %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn btn-primary">Próximo</a>
+        {% endif %}
+        {% else %}
+        <a class="btn btn-primary disabled">Próximo</a>
+        {% endif %}
+    </div> -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        window.alert = function(){} // Recurso tecnico para corrigir bug do DataTable
+        $("#tabelaAtividades").DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+            }
+        })
+    })
+
+</script>
 {% endblock %}

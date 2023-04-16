@@ -197,8 +197,16 @@ class AtividadeList(LoginRequiredMixin, ListView):
     model = Atividade
     template_name = 'atividade.html'
     login_url = reverse_lazy('login')
+    # paginate_by = 1 # Limita o numero de registros exibidos na tela, dentro do HTML tem a paginação e validação. É mais rápido que o DataTable se tiver uma quantidade de registros gigantesca
     
-    def get_queryset(self, queryset=None):
+    def get_queryset(self):
+        # Desabilitado pois já estou utilizando DataTable, o codigo comentado filtra as paginas de acordo com a pesquisa do usuario
+        # input_usuario = self.request.GET.get('detalhes')
+        # if input_usuario:
+        #     self.object_list = Atividade.objects.filter(Q(usuario=self.request.user) & Q(detalhes__icontains=input_usuario))
+        # else:
+        #     self.object_list = Atividade.objects.filter(usuario=self.request.user)
+            
         self.object_list = Atividade.objects.filter(usuario=self.request.user)
         
         return self.object_list

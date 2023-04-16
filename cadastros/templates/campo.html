@@ -5,32 +5,52 @@
 {% endblock %}
 
 {% block content %}
-<h3>
-    Lista de campos registrados
-</h3>
-<a href="{% url 'cadastrar-campo' %}" class="btn btn-primary btn-sm">Cadastrar campo</a>
+<div class="d-flex justify-content-between">
+    <h3>
+        Lista de campos registrados
+    </h3>
+    <a href="{% url 'cadastrar-campo' %}" class="btn btn-primary">Cadastrar campo</a>
+</div>
 <hr>
 <div class="table-responsive">
-    <table class="table table-striped">
-        <tr>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Opções</th>
-        </tr>
-        {% for campo in object_list %}
-        <tr>
-            <td>{{ campo.nome }}</td>
-            <td>{{ campo.descricao }}</td>
-            <td>
-                <a href="{% url 'editar-campo' campo.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
-                <a href="{% url 'deletar-campo' campo.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="3">Nenhum campo registrado.</td>
-        </tr>
-        {% endfor %}
+    <table class="table table-striped" id="tabelaCampo">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campo in object_list %}
+            <tr>
+                <td>{{ campo.nome }}</td>
+                <td>{{ campo.descricao }}</td>
+                <td>
+                    <a href="{% url 'editar-campo' campo.pk %}" class="btn btn-warning btn-sm" title="Editar">Editar</a>
+                    <a href="{% url 'deletar-campo' campo.pk %}" class="btn btn-danger btn-sm" title="Excluir">Excluir</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum campo registrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(event) {
+        window.alert = function(){} // Recurso tecnico para corrigir bug do DataTable
+        $("#tabelaCampo").DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Portuguese-Brasil.json"
+            }
+        })
+    })
+</script>
+{% endblock %}
+
