@@ -12,8 +12,20 @@
 {% if user.is_authenticated %}
 {% if user.perfil.nome_completo %}
 <p>
-    Bem vindo ao sistema {{ user.perfil.nome_completo }}.
+    Bem vindo ao sistema, {{ user.perfil.nome_completo }}.
 </p>
+{% if user.groups.all.0.name == 'Reitor' %}
+<p>
+    Você é o Reitor e tem acesso a todos os recursos do sistema.
+</p>
+{% else %}
+<p>
+    Você é um Docente e tem os seguintes acessos: <br>
+    - <strong>Campos</strong>: Apenas consulta, só o Reitor pode alterar essa area; <br>
+    - <strong>Atividades</strong>: Acesso total; <br>
+    - <strong>Avaliações</strong>: Pode consultar e inserir, mas apenas o Reitor pode excluir/editar.
+</p>
+{% endif %}
 {% else %}
 <p>
     Você precisa completar seu cadastro. Acesse <a href="{% url 'atualizar-dados' %}">meus dados</a> para atualizar.
