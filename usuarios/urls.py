@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from .views import nao_autenticado
-from .views import UsuarioCreate, PerfilUpdate
+from .views import UsuarioCreate, PerfilUpdate, SenhaUpdate
 
 
 urlpatterns = [
@@ -13,4 +13,5 @@ urlpatterns = [
     path('nao-autenticado/', nao_autenticado, name='nao-autenticado'),
     path('registrar/', UsuarioCreate.as_view(), name='registrar'),
     path('atualizar-dados/', PerfilUpdate.as_view(), name='atualizar-dados'),
+    path('atualizar-senha/', SenhaUpdate.as_view(), name='atualizar-senha'),
 ]

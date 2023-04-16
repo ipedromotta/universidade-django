@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 
 from django.contrib.auth.models import Group
+from django.contrib.auth.views import PasswordChangeView
 from django.views.generic.edit import CreateView, UpdateView
 
 from .forms import UsuarioForm
@@ -53,3 +54,15 @@ class PerfilUpdate(UpdateView):
         context['botao'] = "Atualizar"
         
         return context
+    
+class SenhaUpdate(PasswordChangeView):
+    template_name = 'form.html'
+    success_url = reverse_lazy('inicio')
+    
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['titulo'] = 'Atualizar senha'
+        context['botao'] = 'Atualizar'
+        
+        return context
+    
