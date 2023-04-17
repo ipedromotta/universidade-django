@@ -7,7 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from braces.views import GroupRequiredMixin
 
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
 
 from .models import Avaliacao, Campo, Atividade
 
@@ -53,16 +52,17 @@ class AvaliacaoCreate(LoginRequiredMixin, CreateView):
     fields = ['atividade', 'arquivo']
     template_name = 'form.html'
     success_url = reverse_lazy('listar-avaliacoes')
-    
-    def get_object(self, queryset=None):
-        self.object = get_object_or_404(Avaliacao, usuario=self.request.user)
         
-        return self.object
-    
     def form_valid(self, form):
         form.instance.usuario = self.request.user
         
         return super().form_valid(form)
+    
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['atividade'].queryset = Atividade.objects.filter(usuario=self.request.user)
+        
+        return form
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -121,10 +121,17 @@ class AvaliacaoUpdate(GroupRequiredMixin, UpdateView):
         
         return self.object
     
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        atividade = Atividade.objects.get(pk=self.kwargs['pk'])
+        form.fields['atividade'].queryset = Atividade.objects.filter(usuario=atividade.usuario)
+        
+        return form
+    
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         
-        context['titulo'] = "Editar Atividade"
+        context['titulo'] = "Editar Avaliação"
         context['botao'] = "Salvar"
         context['upload'] = "multipart/form-data"
         
@@ -216,7 +223,10 @@ class AvaliacaoList(LoginRequiredMixin, ListView):
     template_name = 'avaliacao.html'
     login_url = reverse_lazy('nao-autenticado')
     
-    # def get_queryset(self, queryset=None):
-    #     self.object_list = Avaliacao.objects.filter(Q(usuario=self.request.user) | Q(usuario__groups__name="Reitor"))
+    def get_queryset(self, queryset=None):
+        self.object_list = Avaliacao.objects.filter(usuario=self.request.user)
         
-    #     return self.object_list
+        if self.request.user.groups.filter(name='Reitor').exists():
+            self.object_list = Avaliacao.objects.all()
+        
+        return self.object_list
